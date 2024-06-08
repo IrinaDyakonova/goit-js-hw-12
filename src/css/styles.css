@@ -162,6 +162,11 @@ img {
   display: none;
 }
 
+#load-more-button {
+  display: none;
+  margin-top: 20px;
+}
+
 
 .loader {
   font-size: 10px;
