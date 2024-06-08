@@ -14,19 +14,23 @@ async function searchImages(newQuery) {
         page = 1;
     }
 
+    let countForPage = 15;
+
     const searchParams = new URLSearchParams({
         key: "44270908-0491c90bbdb5ccf9a31273468",
         q: query,
         image_type: "photo",
         orientation: "horizontal",
         safesearch: true,
-        per_page: 15,
+        per_page: countForPage,
         page: page
     });
 
     const url = `https://pixabay.com/api/?${searchParams}`;
 
     try {
+        document.querySelector('span').style.display = 'block';
+
         const response = await axios.get(url);
         const data = response.data;
 
@@ -40,7 +44,7 @@ async function searchImages(newQuery) {
             renderImages(data.hits);
         }
 
-        if (data.hits.length * page >= data.totalHits) {
+        if (countForPage * page >= data.totalHits) {
             document.querySelector('#load-more-button').style.display = 'none';
             iziToast.info({
                 message: "We're sorry, but you've reached the end of search results.",
@@ -51,7 +55,6 @@ async function searchImages(newQuery) {
         }
 
         const cardHeight = document.querySelector('img').getBoundingClientRect().height;
-        console.log(cardHeight);
         window.scrollBy({
             top: cardHeight * 2,
             behavior: 'smooth'
@@ -61,6 +64,7 @@ async function searchImages(newQuery) {
     } catch (error) {
         console.error('Error:', error);
     }
+    document.querySelector('span').style.display = 'none';
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {

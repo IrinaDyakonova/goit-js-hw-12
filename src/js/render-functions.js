@@ -1,6 +1,8 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
+let lightbox;
+
 function renderImages(images) {
 
     const ul = document.querySelector('ul');
@@ -12,7 +14,7 @@ function renderImages(images) {
 
      markup += `
         <li id='parent-li'>
-            <a href="${image.largeImageURL}">
+            <a href="${image.largeImageURL}"  class="lightbox">
                 <img src="${image.webformatURL}" alt="${image.tags}" data-large-image="${image.largeImageURL}" width="360">
                 <ul id="inner-ul">
                     <li id="inner-li">
@@ -38,11 +40,14 @@ function renderImages(images) {
     });
     ul.insertAdjacentHTML('beforeend', markup);
 
-    new SimpleLightbox('li a', {
+    if (lightbox) {
+        lightbox.refresh();
+    } else {
+        lightbox = new SimpleLightbox('.lightbox', {
         captionsData: 'alt',
         captionDelay: 250
     });
-
+    }
   }
   
   export default renderImages;
